@@ -25,7 +25,6 @@ public abstract class NotificationDataBase extends RoomDatabase {
                     .addCallback(roomCallback)
                     .build();
         }
-
         return instance;
     }
 

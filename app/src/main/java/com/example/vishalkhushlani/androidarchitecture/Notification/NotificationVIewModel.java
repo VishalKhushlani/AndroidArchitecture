@@ -15,10 +15,8 @@ public class NotificationVIewModel extends AndroidViewModel {
 
     public NotificationVIewModel(@NonNull Application application) {
         super(application);
-
-        notificationRepository= new NotificationRepository(application);
-        allNotification=notificationRepository.getAllNotification();
-
+        notificationRepository = new NotificationRepository(application);
+        allNotification = notificationRepository.getAllNotification();
     }
 
     public void insert(Notification notification){
@@ -36,4 +34,5 @@ public class NotificationVIewModel extends AndroidViewModel {
     public LiveData<List<Notification>> getAllNotificaion(){
         return allNotification;
     }
+
 }

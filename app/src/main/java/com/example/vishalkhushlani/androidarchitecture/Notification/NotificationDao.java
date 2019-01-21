@@ -24,5 +24,4 @@ public interface NotificationDao {
     @Query("Select * From notification_table")
     LiveData<List<Notification>>  getAllNotification();
 
-
 }
