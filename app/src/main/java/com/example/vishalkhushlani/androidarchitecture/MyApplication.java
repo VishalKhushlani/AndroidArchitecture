@@ -1,13 +1,12 @@
 package com.example.vishalkhushlani.androidarchitecture;
-
 import android.app.Application;
 import android.content.Context;
-
 import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.AppComponent;
 import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.AppModule;
+import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.DaggerAppComponent;
 import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.RetrofitModule;
 
-public class MyApplication extends Application {
+public class MyApplication extends Application{
     AppComponent appComponent;
     Context context;
 
@@ -15,9 +14,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        appComponent = DaggerAppComponent.builder()
+        appComponent =
+                DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .utilsModule(new RetrofitModule()).build();
+                .retrofitModule(new RetrofitModule()).build();
     }
 
     public AppComponent getAppComponent() {
@@ -28,4 +28,5 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
     }
+
 }

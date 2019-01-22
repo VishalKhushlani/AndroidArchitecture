@@ -1,37 +1,30 @@
 package com.example.vishalkhushlani.androidarchitecture.Notification;
 
-import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.vishalkhushlani.androidarchitecture.Utils.APIResponse;
+import com.example.vishalkhushlani.androidarchitecture.Utils.GenericEntityClass;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class NotificationVIewModel extends ViewModel {
+public class NotificationViewModel extends ViewModel {
     private final CompositeDisposable disposables = new CompositeDisposable();
-    private final MutableLiveData<APIResponse<Notification>> notificationLiveData = new MutableLiveData<>();
+    private final MutableLiveData<APIResponse> notificationLiveData = new MutableLiveData<>();
     private NotificationRepository notificationRepository;
     private List<Notification> allNotification;
-    private APIResponse<Notification> apiResponse;
+    private APIResponse apiResponse;
 
-    public NotificationVIewModel(@NonNull Application application) {
-        notificationRepository = new NotificationRepository(application);
-        allNotification = notificationRepository.getAllNotification();
-    }
-
-    public NotificationVIewModel( NotificationRepository notificationRepository) {
+    public NotificationViewModel(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
 
-    public MutableLiveData<APIResponse<Notification>> getNotificationLiveData() {
+    public MutableLiveData<APIResponse> getNotificationLiveData() {
         return notificationLiveData;
     }
 
@@ -41,9 +34,10 @@ public class NotificationVIewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe((d) -> notificationLiveData.setValue(apiResponse.loading()))
                 .subscribe(
-                        result -> notificationLiveData.setValue(apiResponse.success(result)),
+                        result ->setSuccessResponse(result),
                         throwable -> notificationLiveData.setValue(apiResponse.error(throwable))
-                ));}
+                )
+        );}
 
     public void insert(Notification notification){
         notificationRepository.insert(notification);
@@ -57,8 +51,16 @@ public class NotificationVIewModel extends ViewModel {
         notificationRepository.delete(notification);
     }
 
-    public List<Notification> getAllNotificaion(){
+    public List<Notification> getAllNotificaion() {
+        allNotification = notificationRepository.getAllNotification();
         return allNotification;
     }
+
+    private void setSuccessResponse(Notification result){
+        GenericEntityClass<Notification> notification=new GenericEntityClass<Notification>();
+        notification.setObject(result);
+        notificationLiveData.setValue(apiResponse.success(notification));
+    }
+
 
 }

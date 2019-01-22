@@ -1,34 +1,34 @@
 package com.example.vishalkhushlani.androidarchitecture;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.example.vishalkhushlani.androidarchitecture.Notification.Notification;
-import com.example.vishalkhushlani.androidarchitecture.Notification.NotificationVIewModel;
+import com.example.vishalkhushlani.androidarchitecture.Notification.NotificationViewModel;
 import com.example.vishalkhushlani.androidarchitecture.Utils.APIResponse;
 
 public class MainActivity extends AppCompatActivity {
 
-    NotificationVIewModel notificationVIewModel;
+    NotificationViewModel notificationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((MyApplication) getApplication()).getAppComponent().doInjection(this);
-        notificationVIewModel = ViewModelProviders.of(this, (ViewModelProvider.Factory) notificationVIewModel).get(NotificationVIewModel.class);
-        notificationVIewModel.getNotificationLiveData().observe(this, this::consumeResponse);
+        notificationViewModel = ViewModelProviders.of(this, (ViewModelProvider.Factory) notificationViewModel).get(NotificationViewModel.class);
+        notificationViewModel.getNotificationLiveData().observe(this, this::consumeResponse);
+        notificationViewModel.hitNotificationApi(120);
     }
 
-    private void consumeResponse(APIResponse<Notification> notificationAPIResponse) {
+    private void consumeResponse(APIResponse notificationAPIResponse) {
         switch (notificationAPIResponse.status) {
             case LOADING:
                 break;
 
             case SUCCESS:
+//                notificationViewModel.insert(notificationAPIResponse);
                 break;
 
             case ERROR:

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:contentInsetLeft="0dp"
@@ -39,7 +39,7 @@
                 android:textSize="22sp" />
 
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/lnr_layout_progress1"
@@ -62,19 +62,19 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Please wait"
-            android:textColor="@color/colorBlack"
             android:textSize="18sp"
             />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.appcompat.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv"
-        android:background="@color/colorWhite"
-        android:dividerHeight="2dp">
+        android:dividerHeight="2dp"
 
-    </android.support.v7.widget.RecyclerView>
+        >
+
+    </androidx.appcompat.widget.RecyclerView>
 
     <TextView
         android:id="@+id/no_new_notification_tv"

@@ -2,7 +2,7 @@ package com.example.vishalkhushlani.androidarchitecture.Notification;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import androidx.room.Database;
 import androidx.room.Room;
