@@ -2,23 +2,22 @@ package com.example.vishalkhushlani.androidarchitecture.Utils;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
-
 import static com.example.vishalkhushlani.androidarchitecture.Utils.Status.ERROR;
 import static com.example.vishalkhushlani.androidarchitecture.Utils.Status.LOADING;
 import static com.example.vishalkhushlani.androidarchitecture.Utils.Status.SUCCESS;
 
 
-public class APIResponse<E> {
+public class APIResponse<T> {
 
     public final Status status;
 
     @Nullable
-    public final E data;
+    public final T data;
 
     @Nullable
     public final Throwable error;
 
-    private APIResponse(Status status, @Nullable E data, @Nullable Throwable error) {
+    private APIResponse(Status status, @Nullable T data, @Nullable Throwable error) {
         this.status = status;
         this.data = data;
         this.error = error;
@@ -28,7 +27,7 @@ public class APIResponse<E> {
         return new APIResponse(LOADING, null, null);
     }
 
-    public APIResponse success(@NonNull E data) {
+    public APIResponse success(@NonNull T data) {
         return new APIResponse(SUCCESS, data, null);
     }
 

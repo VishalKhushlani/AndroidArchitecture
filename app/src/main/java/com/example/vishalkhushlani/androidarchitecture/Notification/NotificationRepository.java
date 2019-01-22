@@ -3,23 +3,26 @@ package com.example.vishalkhushlani.androidarchitecture.Notification;
 import android.app.Application;
 import android.os.AsyncTask;
 import com.example.vishalkhushlani.androidarchitecture.Utils.ApiInterface;
+
 import java.util.List;
-import androidx.lifecycle.LiveData;
-import io.reactivex.Observable;
 
 public class NotificationRepository {
     private NotificationDao notificationDao;
     private ApiInterface apiInterface;
-    private LiveData<List<Notification>> allNotification;
+    private List<Notification> allNotification;
+
+    public NotificationRepository(ApiInterface apiInterface) {
+        this.apiInterface = apiInterface;
+    }
+
+    public io.reactivex.Observable<Notification> getNotifications(int userId){
+        return apiInterface.getNotifications(userId);
+    }
 
     public NotificationRepository(Application application) {
         NotificationDataBase database = NotificationDataBase.getInstance(application);
         notificationDao = database.notificationDao();
         allNotification = notificationDao.getAllNotification();
-    }
-
-    public Observable<Notification> getNotifications(int userId) {
-        return apiInterface.getNotifications(userId);
     }
 
     public void insert(Notification notification) {
@@ -34,7 +37,7 @@ public class NotificationRepository {
         new DeleteNotificationAsyncTask(notificationDao).execute(notification);
     }
 
-    public LiveData<List<Notification>> getAllNotification() {
+    public List<Notification> getAllNotification() {
         return allNotification;
     }
 

@@ -22,6 +22,6 @@ public interface NotificationDao {
     void delete(Notification notification);
 
     @Query("Select * From notification_table")
-    LiveData<List<Notification>>  getAllNotification();
+    List<Notification>  getAllNotification();
 
 }

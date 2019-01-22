@@ -1,23 +1,49 @@
 package com.example.vishalkhushlani.androidarchitecture.Notification;
 
 import android.app.Application;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+
+import com.example.vishalkhushlani.androidarchitecture.Utils.APIResponse;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 
-public class NotificationVIewModel extends AndroidViewModel {
+public class NotificationVIewModel extends ViewModel {
+    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final MutableLiveData<APIResponse<Notification>> notificationLiveData = new MutableLiveData<>();
     private NotificationRepository notificationRepository;
-    private LiveData<List<Notification>>allNotification;
+    private List<Notification> allNotification;
+    private APIResponse<Notification> apiResponse;
 
     public NotificationVIewModel(@NonNull Application application) {
-        super(application);
         notificationRepository = new NotificationRepository(application);
         allNotification = notificationRepository.getAllNotification();
     }
+
+    public NotificationVIewModel( NotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
+
+    public MutableLiveData<APIResponse<Notification>> getNotificationLiveData() {
+        return notificationLiveData;
+    }
+
+    public void hitNotificationApi(int userId){
+        disposables.add(notificationRepository.getNotifications(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe((d) -> notificationLiveData.setValue(apiResponse.loading()))
+                .subscribe(
+                        result -> notificationLiveData.setValue(apiResponse.success(result)),
+                        throwable -> notificationLiveData.setValue(apiResponse.error(throwable))
+                ));}
 
     public void insert(Notification notification){
         notificationRepository.insert(notification);
@@ -31,7 +57,7 @@ public class NotificationVIewModel extends AndroidViewModel {
         notificationRepository.delete(notification);
     }
 
-    public LiveData<List<Notification>> getAllNotificaion(){
+    public List<Notification> getAllNotificaion(){
         return allNotification;
     }
 

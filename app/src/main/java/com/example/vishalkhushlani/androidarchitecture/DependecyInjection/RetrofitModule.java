@@ -1,4 +1,7 @@
-package com.example.vishalkhushlani.androidarchitecture.Utils;
+package com.example.vishalkhushlani.androidarchitecture.DependecyInjection;
+
+import com.example.vishalkhushlani.androidarchitecture.Utils.ApiInterface;
+import com.example.vishalkhushlani.androidarchitecture.Utils.Urls;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class RetrofitBuilder {
+public class RetrofitModule {
 
     @Provides
     @Singleton
@@ -26,6 +29,7 @@ public class RetrofitBuilder {
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+
         return new Retrofit.Builder()
                 .baseUrl(Urls.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -58,5 +62,17 @@ public class RetrofitBuilder {
 
         return httpClient.build();
     }
+
+//    @Provides
+//    @Singleton
+//    Repository getRepository(ApiInterface apiCallInterface) {
+//        return new Repository(apiCallInterface);
+//    }
+//
+//    @Provides
+//    @Singleton
+//    ViewModelProvider.Factory getViewModelFactory(Repository myRepository) {
+//        return new ViewModelFactory(myRepository);
+//    }
 
 }
