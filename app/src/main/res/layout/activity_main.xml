@@ -57,7 +57,7 @@
             android:layout_marginRight="20dp"
             />
 
-        <com.smartifyhealth.reposcustomer.utils.SourceSansProLightFont
+        <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
@@ -66,15 +66,13 @@
             />
     </LinearLayout>
 
-    <androidx.appcompat.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv"
         android:dividerHeight="2dp"
-
         >
-
-    </androidx.appcompat.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/no_new_notification_tv"

@@ -1,9 +1,8 @@
 package com.example.vishalkhushlani.androidarchitecture.Notification;
-
 import android.app.Application;
 import android.os.AsyncTask;
 import com.example.vishalkhushlani.androidarchitecture.Utils.ApiInterface;
-
+import com.example.vishalkhushlani.androidarchitecture.Utils.GenericBaseEntity;
 import java.util.List;
 
 public class NotificationRepository {
@@ -15,8 +14,8 @@ public class NotificationRepository {
         this.apiInterface = apiInterface;
     }
 
-    public io.reactivex.Observable<Notification> getNotifications(int userId){
-        return apiInterface.getNotifications(userId);
+    public io.reactivex.Observable<GenericBaseEntity<Notification>> getNotifications(int userId){
+        return apiInterface.getNotifications(userId,"Customer");
     }
 
     public NotificationRepository(Application application) {

@@ -6,7 +6,7 @@ import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.AppMod
 import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.DaggerAppComponent;
 import com.example.vishalkhushlani.androidarchitecture.DependecyInjection.RetrofitModule;
 
-public class MyApplication extends Application{
+public class MyApplication extends Application {
     AppComponent appComponent;
     Context context;
 

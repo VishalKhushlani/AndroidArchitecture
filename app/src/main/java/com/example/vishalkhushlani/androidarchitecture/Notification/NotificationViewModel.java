@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.vishalkhushlani.androidarchitecture.Utils.APIResponse;
 import com.example.vishalkhushlani.androidarchitecture.Utils.GenericEntityClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,7 +19,7 @@ public class NotificationViewModel extends ViewModel {
     private final MutableLiveData<APIResponse> notificationLiveData = new MutableLiveData<>();
     private NotificationRepository notificationRepository;
     private List<Notification> allNotification;
-    private APIResponse apiResponse;
+    GenericEntityClass<Notification> notification=new GenericEntityClass<Notification>();
 
     public NotificationViewModel(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
@@ -32,12 +33,13 @@ public class NotificationViewModel extends ViewModel {
         disposables.add(notificationRepository.getNotifications(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe((d) -> notificationLiveData.setValue(apiResponse.loading()))
+                .doOnSubscribe((d) -> notificationLiveData.setValue(APIResponse.loading()))
                 .subscribe(
-                        result ->setSuccessResponse(result),
-                        throwable -> notificationLiveData.setValue(apiResponse.error(throwable))
+                        result ->notificationLiveData.setValue(APIResponse.success(result.getResult())),
+                        throwable -> notificationLiveData.setValue(APIResponse.error(throwable))
                 )
-        );}
+        );
+    }
 
     public void insert(Notification notification){
         notificationRepository.insert(notification);
@@ -56,11 +58,18 @@ public class NotificationViewModel extends ViewModel {
         return allNotification;
     }
 
-    private void setSuccessResponse(Notification result){
-        GenericEntityClass<Notification> notification=new GenericEntityClass<Notification>();
-        notification.setObject(result);
-        notificationLiveData.setValue(apiResponse.success(notification));
+//    private void setSuccessResponse(ArrayList<Notification> result){
+//        notification.setArrayList(result);
+//        notificationLiveData.setValue(apiResponse.success(notification));
+//    }
+
+    public ArrayList<Notification> getData(){
+        return notification.getArrayList();
     }
 
+    @Override
+    protected void onCleared() {
+        disposables.clear();
+    }
 
 }

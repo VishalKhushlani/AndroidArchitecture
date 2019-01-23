@@ -1,5 +1,4 @@
 package com.example.vishalkhushlani.androidarchitecture.Utils;
-
 import java.util.ArrayList;
 
 public class GenericEntityClass<T> {
@@ -8,6 +7,7 @@ public class GenericEntityClass<T> {
         }
 
     private T object;
+
     private ArrayList<T> arrayList;
 
     public T getObject() {
@@ -25,4 +25,5 @@ public class GenericEntityClass<T> {
     public void setArrayList(ArrayList<T> arrayList) {
         this.arrayList = arrayList;
     }
+
 }

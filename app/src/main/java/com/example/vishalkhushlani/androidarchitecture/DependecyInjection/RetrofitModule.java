@@ -1,13 +1,15 @@
 package com.example.vishalkhushlani.androidarchitecture.DependecyInjection;
-
+import com.example.vishalkhushlani.androidarchitecture.Notification.NotificationRepository;
 import com.example.vishalkhushlani.androidarchitecture.Utils.ApiInterface;
 import com.example.vishalkhushlani.androidarchitecture.Utils.Urls;
+import com.example.vishalkhushlani.androidarchitecture.Utils.ViewModelFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
+import androidx.lifecycle.ViewModelProvider;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -63,16 +65,16 @@ public class RetrofitModule {
         return httpClient.build();
     }
 
-//    @Provides
-//    @Singleton
-//    Repository getRepository(ApiInterface apiCallInterface) {
-//        return new Repository(apiCallInterface);
-//    }
-//
-//    @Provides
-//    @Singleton
-//    ViewModelProvider.Factory getViewModelFactory(Repository myRepository) {
-//        return new ViewModelFactory(myRepository);
-//    }
+    @Provides
+    @Singleton
+    NotificationRepository getRepository(ApiInterface apiCallInterface) {
+        return new NotificationRepository(apiCallInterface);
+    }
+
+    @Provides
+    @Singleton
+    ViewModelProvider.Factory getViewModelFactory(NotificationRepository myRepository) {
+        return new ViewModelFactory(myRepository);
+    }
 
 }
